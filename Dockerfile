@@ -116,6 +116,9 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
 # 设置工作目录为 /app
 WORKDIR /app
 
+# 将当前目录的内容复制到容器的 /app 目录
+COPY . /app
+
 # ***** 创建目录授权 *****
 RUN set -eux && \
     cp -rf /root/.oh-my-zsh /app/.oh-my-zsh && \
@@ -139,6 +142,6 @@ EXPOSE 3000
 EXPOSE 8008
 
 # 环境变量
-ENV ACCESS_TOKEN=YourToken CODE=YourCode
+ENV ACCESS_TOKEN="" CODE=""
 
 CMD sh -c 'echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cd /app/pandora && pandora -s 0.0.0.0:8008 -t token.txt & cd /app/chatgpt && git pull && yarn build && yarn start'
