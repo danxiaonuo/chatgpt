@@ -125,7 +125,7 @@ RUN set -eux && \
     cp -rf /root/.oh-my-zsh /app/.oh-my-zsh && \
     cp -rf /root/.zshrc /app/.zshrc && \
     sed -i '5s#/root/.oh-my-zsh#/app/.oh-my-zsh#' /app/.zshrc && \
-	chmod a+x /usr/bin/docker-entrypoint.sh 
+    chmod a+x /usr/bin/docker-entrypoint.sh 
 
 # 安装 pandora 项目
 RUN git clone https://github.com/pengzhile/pandora.git && \
