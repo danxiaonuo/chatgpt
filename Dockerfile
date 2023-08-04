@@ -117,13 +117,15 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
 WORKDIR /app
 
 # 将当前目录的内容复制到容器的 /app 目录
-COPY . /app
+COPY [".", "/app"]
+COPY ["docker-entrypoint.sh", "/usr/bin/docker-entrypoint.sh"]
 
 # ***** 创建目录授权 *****
 RUN set -eux && \
     cp -rf /root/.oh-my-zsh /app/.oh-my-zsh && \
     cp -rf /root/.zshrc /app/.zshrc && \
-    sed -i '5s#/root/.oh-my-zsh#/app/.oh-my-zsh#' /app/.zshrc
+    sed -i '5s#/root/.oh-my-zsh#/app/.oh-my-zsh#' /app/.zshrc && \
+	chmod a+x /usr/bin/docker-entrypoint.sh 
 
 # 安装 pandora 项目
 RUN git clone https://github.com/pengzhile/pandora.git && \
@@ -145,4 +147,5 @@ EXPOSE 8008
 # 环境变量
 ENV ACCESS_TOKEN="" CODE=""
 
-CMD sh -c 'echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cd /app/pandora && pandora -s 0.0.0.0:8008 -t token.txt & cd /app/chatgpt && yarn start'
+# ***** 入口 *****
+ENTRYPOINT ["docker-entrypoint.sh"]
