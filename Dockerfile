@@ -134,6 +134,7 @@ RUN git clone https://github.com/pengzhile/pandora.git && \
 RUN git clone https://github.com/danxiaonuo/chatgpt.git && \
     cd chatgpt && \
     yarn install && \
+    git pull && \
     yarn build
 
 # 开放端口3000
@@ -144,4 +145,4 @@ EXPOSE 8008
 # 环境变量
 ENV ACCESS_TOKEN="" CODE=""
 
-CMD sh -c 'echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cd /app/pandora && pandora -s 0.0.0.0:8008 -t token.txt & cd /app/chatgpt && git pull && yarn build && yarn start'
+CMD sh -c 'echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cd /app/pandora && pandora -s 0.0.0.0:8008 -t token.txt & cd /app/chatgpt && yarn start'
