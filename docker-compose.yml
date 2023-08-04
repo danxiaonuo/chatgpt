@@ -40,8 +40,8 @@ services:
       - /lib/modules:/lib/modules:ro,cached
       - /etc/sysctl.conf:/etc/sysctl.conf:ro,cached
     # 环境变量
-    env_file:
-     - ./.env_vars/.env_chatgpt
+    #env_file:
+    # - ./.env_vars/.env_chatgpt
     # 指定设备映射关系
     # devices:
     # - /dev/net/tun
