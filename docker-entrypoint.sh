@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # chatgpt token
-TOKEN_TMP=$(wget -q -O - https://cdn.jsdelivr.net/gh/danxiaonuo/gwf/chatgpt/chatgpt_token.txt)
+TOKEN_TMP=$(wget -q -O - https://down.xiaonuo.live/?url=https://raw.githubusercontent.com/danxiaonuo/gwf/main/chatgpt/chatgpt_token.txt)
 ACCESS_TOKEN="${ACCESS_TOKEN:=${TOKEN_TMP}}"
 
 # 运行chatgpt web
