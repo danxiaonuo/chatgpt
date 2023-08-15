@@ -5,4 +5,4 @@ TOKEN_TMP=$(wget -q -O - https://down.xiaonuo.live/?url=https://raw.githubuserco
 ACCESS_TOKEN="${ACCESS_TOKEN:=${TOKEN_TMP}}"
 
 # 运行chatgpt web
-echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cron && cd /app/pandora && pandora -s 0.0.0.0:8008 -t token.txt & cd /app/chatgpt && yarn start
+echo "${ACCESS_TOKEN}" > /app/pandora/token.txt && cron && bash myscript.sh && cd /app/chatgpt && yarn start
