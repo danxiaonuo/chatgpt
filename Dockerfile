@@ -118,6 +118,7 @@ WORKDIR /app
 
 # 将当前目录的内容复制到容器的 /app 目录
 COPY [".", "/app"]
+COPY ["myscript.sh", "/app/myscript.sh"]
 COPY ["docker-entrypoint.sh", "/usr/bin/docker-entrypoint.sh"]
 
 # ***** 创建目录授权 *****
@@ -125,7 +126,7 @@ RUN set -eux && \
     cp -rf /root/.oh-my-zsh /app/.oh-my-zsh && \
     cp -rf /root/.zshrc /app/.zshrc && \
     sed -i '5s#/root/.oh-my-zsh#/app/.oh-my-zsh#' /app/.zshrc && \
-    chmod a+x /usr/bin/docker-entrypoint.sh 
+    chmod a+x /usr/bin/docker-entrypoint.sh /app/myscript.sh
 
 # 安装 pandora 项目
 RUN git clone https://github.com/pengzhile/pandora.git && \
@@ -138,6 +139,9 @@ RUN git clone https://github.com/danxiaonuo/chatgpt.git && \
     yarn install && \
     git pull && \
     yarn build
+
+#设置定时任务
+RUN crontab -l | { cat; echo "0 0 */10 * * bash /app/myscript.sh"; } | crontab -
 
 # 开放端口3000
 EXPOSE 3000
