@@ -61,6 +61,7 @@ ARG PKG_DEPS="\
     debsums \
     locales \
     iptables \
+    cron \
     python3 \
     python3-dev \
     python3-pip \
