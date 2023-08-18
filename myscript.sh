@@ -11,4 +11,4 @@ kill -9 $(lsof -t -i:8008)
 # 运行 pandora
 echo "${ACCESS_TOKEN}" > /app/pandora/token.txt
 cd /app/pandora
-nohup pandora -s 0.0.0.0:8008 -t token.txt > output.log 2>&1 &
+/usr/bin/nohup /usr/bin/python3 /usr/local/bin/pandora -s 0.0.0.0:8008 -t /app/pandora/token.txt > /app/pandora/output.log 2>&1 &
