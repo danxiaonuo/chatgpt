@@ -131,12 +131,12 @@ RUN set -eux && \
     chmod a+x /usr/bin/docker-entrypoint.sh /app/myscript.sh checkgpt.sh
 
 # 安装 pandora 项目
-RUN git clone https://github.com/pengzhile/pandora.git && \
+RUN git clone https://github.com/zhile-io/pandora.git && \
     cd pandora && \
     pip install .
 
 # 下载和安装项目
-RUN git clone https://github.com/zhile-io/pandora.git && \
+RUN git clone https://github.com/danxiaonuo/chatgpt.git && \
     cd chatgpt && \
     yarn install && \
     git pull && \
