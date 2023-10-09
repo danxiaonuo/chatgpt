@@ -21,7 +21,7 @@ def run():
 
     with open(credentials_file, 'r', encoding='utf-8') as f:
         credentials = f.read().split('\n')
-    credentials = [credential.split(',', 1) for credential in credentials]
+    credentials = [credential.split(' ', 1) for credential in credentials]
     print(credentials)
 
     count = 0
