@@ -136,7 +136,7 @@ RUN git clone https://github.com/pengzhile/pandora.git && \
     pip install .
 
 # 下载和安装项目
-RUN git clone https://github.com/danxiaonuo/chatgpt.git && \
+RUN git clone https://github.com/zhile-io/pandora.git && \
     cd chatgpt && \
     yarn install && \
     git pull && \
