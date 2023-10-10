@@ -16,7 +16,7 @@ def run():
     current_dir = path.dirname(path.abspath(__file__))
     credentials_file = path.join(current_dir, 'user.txt')
 
-    tokens_file = '/app/pandora/token.txt'
+    tokens_file = '/app/chatgpt/chatgpt_token.txt'
 	
 	# 清空之前的 token 值
     with open(tokens_file, 'w', encoding='utf-8'):
