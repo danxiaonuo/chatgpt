@@ -7,7 +7,6 @@ import requests
 
 from pandora.openai.auth import Auth0
 
-
 def run():
     proxy = None
     expires_in = 0
@@ -18,6 +17,10 @@ def run():
     credentials_file = path.join(current_dir, 'user.txt')
 
     tokens_file = '/app/pandora/token.txt'
+	
+	# 清空之前的 token 值
+    with open(tokens_file, 'w', encoding='utf-8'):
+        pass
 
     with open(credentials_file, 'r', encoding='utf-8') as f:
         credentials = f.read().split('\n')
@@ -26,6 +29,10 @@ def run():
 
     count = 0
     token_keys = []
+
+    # 用于记录是否已经输出过token的标志
+    token_output_flag = False
+
     for credential in credentials:
         progress = '{}/{}'.format(credentials.index(credential) + 1, len(credentials))
         if not credential or len(credential) != 2:
@@ -33,7 +40,7 @@ def run():
 
         count += 1
         username, password = credential[0].strip(), credential[1].strip()
-        print('Login begin: {}, {}'.format(username, progress))
+        print('开始登录: {}, {}'.format(username, progress))
         print(password)
 
         token_info = {
@@ -44,10 +51,17 @@ def run():
 
         try:
             token_info['token'] = Auth0(username, password, proxy).auth(False)
-            print('Login success: {}, {}'.format(username, progress))
+            print('登录成功: {}, {}'.format(username, progress))
+
+            # 判断token值长度是否大于100，且未输出过
+            if len(token_info['token']) > 100 and not token_output_flag:
+                with open(tokens_file, 'w', encoding='utf-8') as f:
+                    f.write('{}\n'.format(token_info['token']))
+                token_output_flag = True
+
         except Exception as e:
             err_str = str(e).replace('\n', '').replace('\r', '').strip()
-            print('Login failed: {}, {}'.format(username, err_str))
+            print('登录失败: {}, {}'.format(username, err_str))
             token_info['token'] = err_str
             continue
 
@@ -59,17 +73,15 @@ def run():
         resp = requests.post('https://ai.fakeopen.com/token/register', data=data)
         if resp.status_code == 200:
             token_info['share_token'] = resp.json()['token_key']
-            print('share token: {}'.format(token_info['share_token']))
+            print('共享令牌: {}'.format(token_info['share_token']))
         else:
             err_str = resp.text.replace('\n', '').replace('\r', '').strip()
-            print('share token failed: {}'.format(err_str))
+            print('共享令牌失败: {}'.format(err_str))
             token_info['share_token'] = err_str
             continue
 
-    with open(tokens_file, 'w', encoding='utf-8') as f:
-        for token_info in token_keys:
-            f.write('{}\n'.format(token_info['token']))
-
+    if not token_output_flag:
+        print("未找到长度大于100的token值。")
 
 if __name__ == '__main__':
     run()
